@@ -17,7 +17,7 @@ inputUah.addEventListener('input', () =>{
     request.addEventListener('readystatechange', function(){
         if (request.readyState === 4 && request.status == 200){
             let data = JSON.parse(request.response);
-            inputUsd.value =  (inputUah.value / data.usd).toFixed()
+            inputUsd.value =  (inputUah.value / data.usd).toFixed(1)
         }else{
             inputUsd.value = "Что-то пошло не так";
         }
