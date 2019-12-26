@@ -5,7 +5,7 @@ inputUah.addEventListener('input', () =>{
     let request = new XMLHttpRequest();
 
     //request.open(method, url, async, login, pass);
-    request.open('GET','./current.json');
+    request.open('GET','./src/current.json');
     request.setRequestHeader('Content-type','application/json; charset=utf-8');
     request.send();
 
@@ -15,12 +15,20 @@ inputUah.addEventListener('input', () =>{
     //readyState
 
     request.addEventListener('readystatechange', function(){
-        if (request.readyState === 4 && request.status == 200){
+        let promise = new Promise(function(resolve, reject){
+            if (request.readyState === 4 && request.status == 200){
+                resolve();
+            }else{
+                reject();   
+            }
+        })
+        promise.then(()=>{
             let data = JSON.parse(request.response);
-            inputUsd.value =  (inputUah.value / data.usd).toFixed(1)
-        }else{
-            inputUsd.value = "Что-то пошло не так";
-        }
+            inputUsd.value =  (inputUah.value / data.usd).toFixed(1);
+        })
+            .catch(()=>{
+                inputUsd.value = "Что-то пошло не так";
+            })
     })
     
 });
